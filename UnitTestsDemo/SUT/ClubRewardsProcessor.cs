@@ -1,17 +1,19 @@
+using System.Threading.Tasks;
+
 namespace UnitTestsDemo.SUT
 {
 	public class ClubRewardsProcessor
 	{
-		public IOrder Evaluate(IOrder baseOrder)
+		public async Task<IOrder> Evaluate(IOrder baseOrder)
 		{
-			var bonusPlan = baseOrder.GetCustomer().GetBonusPlan();
-			var customer = baseOrder.GetCustomer();
+			var customer = await baseOrder.GetCustomer();
+			var bonusPlan = await customer.GetBonusPlan();
 			if (customer.BonusPoints < bonusPlan.MinimumPoints
 			    || baseOrder.Total < bonusPlan.MinimumAmount)
 				return baseOrder;
 
 			var discount = baseOrder.Total * bonusPlan.DiscountPercent / 100;
-			var newOrder = new Order
+			var newOrder = new Order(customer)
 			{
 				Total = baseOrder.Total - discount
 			};

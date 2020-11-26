@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using UnitTestsDemo.SUT;
@@ -8,7 +9,7 @@ namespace UnitTestsDemo
 	public class Tests
 	{
 		[Test]
-		public void CustomerBonusPointsGivesDiscountForOrdersAboveCertainAmount()
+		public async Task CustomerBonusPointsGivesDiscountForOrdersAboveCertainAmount()
 		{
 			// Arrange
 			const int minPoints = 100;
@@ -26,18 +27,17 @@ namespace UnitTestsDemo
 			bonusPlan.Setup(o => o.DiscountPercent).Returns(discountPercent);
 
 			var customer = new Mock<ICustomer>();
-			customer.Setup(o => o.GetBonusPlan()).Returns(bonusPlan.Object);
+			customer.Setup(o => o.GetBonusPlan()).ReturnsAsync(bonusPlan.Object);
 			customer.Setup(o => o.BonusPoints).Returns(actualPoints);
-
-
+			
 			var baseOrder = new Mock<IOrder>();
-			baseOrder.Setup(o => o.GetCustomer()).Returns(customer.Object);
+			baseOrder.Setup(o => o.GetCustomer()).ReturnsAsync(customer.Object);
 			baseOrder.Setup(o => o.Total).Returns(actualAmount);
 
 			var clubRewardsProcessor = new ClubRewardsProcessor(); // SUT
 			
 			// Act
-			var updatedOrder = clubRewardsProcessor.Evaluate(baseOrder.Object);
+			var updatedOrder = await clubRewardsProcessor.Evaluate(baseOrder.Object);
 
 			// Assert
 			Assert.AreEqual(expectedTotal, updatedOrder.Total, "Total");
