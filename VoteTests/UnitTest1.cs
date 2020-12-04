@@ -9,7 +9,7 @@ namespace VoteTests
 {
 	public class Tests
 	{
-		// Run "docker-compose -f docker-compose-votetests.yml up" before running the test
+		// Run "docker-compose -f docker-compose-votetests.yml up -V" before running the test
 
 		private readonly VotePage _votePage = new VotePage("http://localhost:5050");
 		private readonly RedisClient _redis = new RedisClient(6379);
