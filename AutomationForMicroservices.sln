@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worker", "..\example-voting
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SUT", "SUT", "{2F252409-89C2-4C30-B17E-4C9352F7D173}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WireMockDemo", "WireMockDemo\WireMockDemo.csproj", "{B7E479F2-38AC-471E-893C-A6D48489AA47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{057A8F66-4E40-4980-87D0-2C31DD5F3AA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{057A8F66-4E40-4980-87D0-2C31DD5F3AA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{057A8F66-4E40-4980-87D0-2C31DD5F3AA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7E479F2-38AC-471E-893C-A6D48489AA47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7E479F2-38AC-471E-893C-A6D48489AA47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7E479F2-38AC-471E-893C-A6D48489AA47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7E479F2-38AC-471E-893C-A6D48489AA47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
