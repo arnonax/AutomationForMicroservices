@@ -1,3 +1,5 @@
+using System.Linq;
+using Common;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -51,6 +53,29 @@ namespace WireMockDemo
 			Assert.AreEqual("dummy-verb", _driver.FindElement(By.CssSelector(".line2 .verb .word")).Text);
 			Assert.AreEqual("dummy-adjective", _driver.FindElement(By.CssSelector(".line3 .adjective .word")).Text);
 			Assert.AreEqual("dummy-noun", _driver.FindElement(By.CssSelector(".line3 .noun .word")).Text);
+		}
+
+		[Test]
+		public void WordSmithTest2()
+		{
+			var nounIsRequested = RequestIsSentTo("/words/noun");
+			var verbIsRequested = RequestIsSentTo("/words/verb");
+			var adjectiveIsRequested = RequestIsSentTo("/words/adjective");
+
+			When(nounIsRequested).RespondWith(WordResponse("dummy-noun"));
+			When(verbIsRequested).RespondWith(WordResponse("dummy-verb"));
+			When(adjectiveIsRequested).RespondWith(WordResponse("dummy-adjective"));
+
+			_driver.Url = Url;
+			Wait.Until(() => "Dummy-adjective" == _driver.FindElement(By.CssSelector(".line1 .adjective .word")).Text, 2.Seconds(), "First word");
+			Assert.AreEqual("dummy-noun", _driver.FindElement(By.CssSelector(".line1 .noun .word")).Text);
+			Assert.AreEqual("dummy-verb", _driver.FindElement(By.CssSelector(".line2 .verb .word")).Text);
+			Assert.AreEqual("dummy-adjective", _driver.FindElement(By.CssSelector(".line3 .adjective .word")).Text);
+			Assert.AreEqual("dummy-noun", _driver.FindElement(By.CssSelector(".line3 .noun .word")).Text);
+
+			Assert.AreEqual(2, _server.FindLogEntries(nounIsRequested).Count(), "nouns");
+			Assert.AreEqual(1, _server.FindLogEntries(verbIsRequested).Count(), "verbs");
+			Assert.AreEqual(2, _server.FindLogEntries(adjectiveIsRequested).Count(), "adjectives");
 		}
 
 		private IRespondWithAProvider When(IRequestMatcher requestMatcher)
