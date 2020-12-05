@@ -1,6 +1,6 @@
 using System;
 
-namespace WorkerTests
+namespace Common
 {
 	public static class Wait
 	{

@@ -1,4 +1,4 @@
-namespace VoteTests
+namespace Common
 {
 	public sealed class VoteOption
 	{

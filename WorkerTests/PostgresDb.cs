@@ -1,29 +1,18 @@
-using System;
-using Npgsql;
-using NpgsqlTypes;
+using Common;
 
 namespace WorkerTests
 {
-	internal class PostgresDb : IDisposable
+	internal class PostgresDb : PostgresDbBase
 	{
-		private readonly NpgsqlConnection _connection;
-
-		public PostgresDb(string connectionString)
+		public PostgresDb(string connectionString) : base(connectionString)
 		{
-			_connection = new NpgsqlConnection(connectionString);
-			_connection.Open();
 		}
 
 		public string GetVoteByVoterId(string voterId)
 		{
-			using var command = new NpgsqlCommand("select vote from votes where id=@voterId", _connection);
-			command.Parameters.Add("voterId", NpgsqlDbType.Varchar).Value = voterId;
+			using var command = CreateCommand("select vote from votes where id=@voterId");
+			command.Parameters.AddWithValue("voterId", voterId);
 			return command.ExecuteScalar() as string;
-		}
-
-		public void Dispose()
-		{
-			_connection?.Dispose();
 		}
 	}
 }

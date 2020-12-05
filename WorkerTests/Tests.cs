@@ -1,4 +1,5 @@
 using System;
+using Common;
 using Newtonsoft.Json;
 using Npgsql;
 using NUnit.Framework;
@@ -11,16 +12,7 @@ namespace WorkerTests
 		// Run "docker-compose -f docker-compose-workertests.yml up -V" before running the test
 
 		private readonly RedisClient _redis = new RedisClient(6379);
-		private readonly PostgresDb _postgresDb = new PostgresDb(BuildConnectionString());
-
-		private static string BuildConnectionString()
-		{
-			var csb = new NpgsqlConnectionStringBuilder
-			{
-				Host = "localhost", Port = 5432, Username = "postgres", Password = "postgres"
-			};
-			return csb.ToString();
-		}
+		private readonly PostgresDb _postgresDb = new PostgresDb(PostgresDbBase.BuildConnectionString());
 
 		[TearDown]
 		public void TearDown()

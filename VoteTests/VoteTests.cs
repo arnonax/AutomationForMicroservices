@@ -1,3 +1,4 @@
+using Common;
 using NUnit.Framework;
 
 namespace VoteTests
